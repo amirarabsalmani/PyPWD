@@ -152,13 +152,16 @@ class Ui_Options(object):
         try:
             date = core.now()
             home = os.path.expanduser('~')
-            exportxls = "PyPWD_{}-{}-{}.xls".format(date[3],date[2], date[1])
-            saveFilePath = QFileDialog.getSaveFileName(self, OPED, '{}/Downloads/{}'.format(home,exportxls),'*.xls')
-            df = pd.read_csv(filetemp,index_col='id',skiprows=[1])  
+            exportxls = f"PyPWD_{date[3]}-{date[2]}-{date[1]}.xls"
+            saveFilePath = QFileDialog.getSaveFileName(
+                self, OPED, f'{home}/Downloads/{exportxls}', '*.xls'
+            )
+
+            df = pd.read_csv(filetemp,index_col='id',skiprows=[1])
             for p in df['password']:
                 decoded_text = core.detemppwd(p)
                 df.loc[df['password'] == p, 'password'] = decoded_text
-            export_excel = df.to_excel (r'{}'.format(saveFilePath[0]), index=None, header=True)
+            export_excel = df.to_excel(f'{saveFilePath[0]}', index=None, header=True)
             self.label_msg.setText(OFEE)
             self.repaint()
         except:
@@ -169,16 +172,19 @@ class Ui_Options(object):
     ### EXPORT CLEAN PWD IN EXCEL   
     def backup(self):
         core.sessioncheck()
-        try:            
+        try:        
             date = core.now()
             home = os.path.expanduser('~')
-            backup_file = "PyPWD_{}-{}-{}.zip".format(date[3],date[2], date[1])        
-            backup_paths = ['./{}'.format(filename),'./libs/configfile.py'] 
-            saveFilePath = QFileDialog.getSaveFileName(self, OPEB, '{}/Downloads/{}'.format(home,backup_file),"*.zip")        
+            backup_file = f"PyPWD_{date[3]}-{date[2]}-{date[1]}.zip"
+            backup_paths = [f'./{filename}', './libs/configfile.py']
+            saveFilePath = QFileDialog.getSaveFileName(
+                self, OPEB, f'{home}/Downloads/{backup_file}', "*.zip"
+            )
+
             with ZipFile(saveFilePath[0],'w') as zip:
                 for file in backup_paths:
                     zip.write(file)
-            self.label_msg.setText(OBED)   
+            self.label_msg.setText(OBED)
             self.repaint()
         except:
             self.label_msg.setText(OBEP)
@@ -189,8 +195,9 @@ class Ui_Options(object):
     def importdb(self):
         core.sessioncheck()
         home = os.path.expanduser('~')
-        importFilePath = QFileDialog.getOpenFileNames(self, OPIB, '{}/Downloads/{}'.format(home,filename), "*.zip")              
-        if importFilePath:
+        if importFilePath := QFileDialog.getOpenFileNames(
+            self, OPIB, f'{home}/Downloads/{filename}', "*.zip"
+        ):
             try:
                 with ZipFile(importFilePath[0][0], 'r') as zip: 
                     zip.extract(filename)                    
@@ -228,8 +235,8 @@ class Ui_Options(object):
             keyfile = encMaster[0]
             p = encMaster[1]
             ### Create the dataframe to save
-            ndate = "{}-{}-{}".format(date[3],date[2], date[1])
-            df = pd.read_csv(filetemp,index_col=None, header=0)      
+            ndate = f"{date[3]}-{date[2]}-{date[1]}"
+            df = pd.read_csv(filetemp,index_col=None, header=0)
             df.loc[0] = ['0', 'master', username, p, 'MASTER PASSWORD', ndate]
             try:
                 with open(filetemp, 'w') as f:
@@ -242,7 +249,7 @@ class Ui_Options(object):
             ### Save Encrypted file
             pyAesCrypt.encryptFile(filetemp, filename, keyfile, bufferSize)
             self.repaint()
-            self.label_msg.setText(ORAP) 
+            self.label_msg.setText(ORAP)
             return None
         else:
             self.label_msg.setText(LMPW)
@@ -264,41 +271,46 @@ class Ui_Options(object):
     ### CLOSE THE OPT DIALOG
     def reject(self):
         try:
-            f = open("./libs/configfile.py","rt")        
-            options = f.read()
-            result = [x.strip() for x in options.split('\n')]
-            secout = result[0]; secout = [x.strip() for x in secout.split('=')];
-            language = result[2]; language = [x.strip() for x in language.split('=')]
-            encoding = result[1]; encoding = [x.strip() for x in encoding.split('=')]
-            secoutN = self.lineTimeout.text()
-            languageN = '"' + self.comboLanguage.currentText() + '"'
-            encodingN = '"' + self.comboEncoding.currentText() + '"'
-            f.close()
+            with open("./libs/configfile.py","rt") as f:
+                options = f.read()
+                result = [x.strip() for x in options.split('\n')]
+                secout = result[0]
+                secout = [x.strip() for x in secout.split('=')];
+                language = result[2]
+                language = [x.strip() for x in language.split('=')]
+                encoding = result[1]
+                encoding = [x.strip() for x in encoding.split('=')]
+                secoutN = self.lineTimeout.text()
+                languageN = '"' + self.comboLanguage.currentText() + '"'
+                encodingN = '"' + self.comboEncoding.currentText() + '"'
             options = options.replace(str(secout[1]),str(secoutN))
             options = options.replace(str(language[1]),str(languageN))
             options = options.replace(str(encoding[1]),str(encodingN))
-            f = open("./libs/configfile.py","wt")         
-            f.write(options)
-            f.close()
+            with open("./libs/configfile.py","wt") as f:
+                f.write(options)
             self.repaint()
             self.close()
         except:
             self.label_msg.setText(OAPP) 
             self.repaint()
-            self.close()           
+            self.close()
         return None
     
     ### LOAD THE FILE AND THE CONFIG VARS
     def runconfig(self):
         core.sessioncheck()
-        f = open("./libs/configfile.py","r")     
-        options = f.read()
-        result = [x.strip() for x in options.split('\n')]
-        secout = result[0]; secout = [x.strip() for x in secout.split('=')];
-        language = result[2]; language = language.replace('"', '', 2); language = [x.strip() for x in language.split('=')]
-        encoding = result[1]; encoding = encoding.replace('"', '', 2); encoding = [x.strip() for x in encoding.split('=')]
-        self.lineTimeout.setText(secout[1])
-        self.comboLanguage.setCurrentText(language[1])
-        self.comboEncoding.setCurrentText(encoding[1])
-        f.close()
+        with open("./libs/configfile.py","r") as f:
+            options = f.read()
+            result = [x.strip() for x in options.split('\n')]
+            secout = result[0]
+            secout = [x.strip() for x in secout.split('=')];
+            language = result[2]
+            language = language.replace('"', '', 2)
+            language = [x.strip() for x in language.split('=')]
+            encoding = result[1]
+            encoding = encoding.replace('"', '', 2)
+            encoding = [x.strip() for x in encoding.split('=')]
+            self.lineTimeout.setText(secout[1])
+            self.comboLanguage.setCurrentText(language[1])
+            self.comboEncoding.setCurrentText(encoding[1])
         return None

@@ -65,9 +65,8 @@ class Ui_loginmenu(object):
         self.msgdialog_2.setText(_translate("loginmenu", LMSG))
         
     def closeEvent(self, event):        
-        try:            
+        try:        
             f = open(sessiontmp,"r")
-            pass
         except:
             core.exit_now('','')
 

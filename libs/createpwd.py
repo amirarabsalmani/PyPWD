@@ -132,7 +132,7 @@ class Ui_createpwd(object):
     ### GENERATE RANDOM PASSWORD
     def generate(self):
         t = time.time()
-        data = '{}{}'.format(t,rand)
+        data = f'{t}{rand}'
         encodedBytes = base64.b64encode(data.encode("utf-8"))
         encodedStr = str(encodedBytes, "utf-8")
         encodedStr = encodedStr[13:23]
@@ -142,8 +142,8 @@ class Ui_createpwd(object):
         
     ### CREATE NEW PASSWOD
     def newpassword(self):
-        core.sessioncheck()        
-        project = self.lineProject.text()        
+        core.sessioncheck()
+        project = self.lineProject.text()
         username = self.lineUsername.text()
         password = self.linePassword.text()
         notes = self.lineNotes.text()
@@ -162,20 +162,16 @@ class Ui_createpwd(object):
 
         ### Hash password
         p = core.hash_password(password)
-        
+
         ### Check duplicates IDs
         date = core.now()
         df = pd.read_csv(filetemp, header=0)
         did = df['id']
-        nid = len(df)              
+        nid = len(df)
         for idd in did:
-            if idd == nid:
-                nid = 1+nid
-            else:
-                nid = nid
-
+            nid = 1+nid if idd == nid else nid
         ### Create date
-        ndate = "{}-{}-{}".format(date[3],date[2], date[1])
+        ndate = f"{date[3]}-{date[2]}-{date[1]}"
         df.loc[nid] = [nid, project, username, p, notes, ndate]
         ### Save the changes
         try:
@@ -187,7 +183,7 @@ class Ui_createpwd(object):
                 password = core.detemppwd(admpwd)
                 keyfile = core.decrypt(password)        
                 pyAesCrypt.encryptFile(filetemp, filename, keyfile, bufferSize) 
-                
+
                 self.label_Msg.setText(CPPS)
                 self.lineProject.setText("")
                 self.lineUsername.setText("")

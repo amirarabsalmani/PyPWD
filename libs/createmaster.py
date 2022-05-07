@@ -89,56 +89,53 @@ class Ui_createmaster(object):
 
     ### Prevent Segment error 11
     def closeEvent(self, event):        
-        try:            
+        try:        
             f = open(sessiontmp,"r")
-            pass
         except:
             core.exit_now('','')
             
     ### Create the first username and password to encrypt the file
     def masterpassword(self):
         df = pd.DataFrame()
-        if (df.empty):
-            date = core.now()
-            ndate = "{}-{}-{}".format(date[3],date[2], date[1])
-            username = self.lineUsername.text()
-            password = self.linePassword.text()
-            checkpass = self.lineNotes.text()
-            if username == '':
-                self.label_Msg.setText(LUCE)
-                self.repaint()
-                return False
-            if password == '':
-                self.label_Msg.setText(LPCE)
-                self.repaint()
-                return False
-            if checkpass == '':
-                self.label_Msg.setText(CRPE)
-                self.repaint()
-                return False                
-            if checkpass != password:
-                self.label_Msg.setText(CPNS)
-                self.repaint()
-                return False            
-            ### CREATE ENC KEY for FILE AND HASH
-            encMaster = core.encryptMaster(password)
-            keyfile = encMaster[0]
-            p = encMaster[1]
-            ### Create the dataframe to save
-            df = pd.DataFrame(columns=['id', 'project', 'username', 'password','notes', 'date'])
-            df.loc[0] = ['0', 'master', username, p, 'MASTER Password', ndate]
-            try:
-                with open(filetemp, 'w') as f:
-                    df.to_csv(f,sep=',', encoding=encoding,index=False)
-                    f.close()
-            except:
-                with open(filetemp, 'x') as f:
-                    df.to_csv(f,sep=',', encoding=encoding,index=False)
-                    f.close()
-            ### Save Encrypted file           
-            pyAesCrypt.encryptFile(filetemp, filename, keyfile, bufferSize)
-            self.switch_window.emit()
-            return None
-        else:
+        if not df.empty:
             return core.exit_now('','')
+        date = core.now()
+        ndate = f"{date[3]}-{date[2]}-{date[1]}"
+        username = self.lineUsername.text()
+        password = self.linePassword.text()
+        checkpass = self.lineNotes.text()
+        if username == '':
+            self.label_Msg.setText(LUCE)
+            self.repaint()
+            return False
+        if password == '':
+            self.label_Msg.setText(LPCE)
+            self.repaint()
+            return False
+        if checkpass == '':
+            self.label_Msg.setText(CRPE)
+            self.repaint()
+            return False
+        if checkpass != password:
+            self.label_Msg.setText(CPNS)
+            self.repaint()
+            return False
+        ### CREATE ENC KEY for FILE AND HASH
+        encMaster = core.encryptMaster(password)
+        keyfile = encMaster[0]
+        p = encMaster[1]
+        ### Create the dataframe to save
+        df = pd.DataFrame(columns=['id', 'project', 'username', 'password','notes', 'date'])
+        df.loc[0] = ['0', 'master', username, p, 'MASTER Password', ndate]
+        try:
+            with open(filetemp, 'w') as f:
+                df.to_csv(f,sep=',', encoding=encoding,index=False)
+                f.close()
+        except:
+            with open(filetemp, 'x') as f:
+                df.to_csv(f,sep=',', encoding=encoding,index=False)
+                f.close()
+        ### Save Encrypted file           
+        pyAesCrypt.encryptFile(filetemp, filename, keyfile, bufferSize)
+        self.switch_window.emit()
         return None

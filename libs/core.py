@@ -21,13 +21,12 @@ class core:
     
     ### Write the Timeout Session
     def session():
-        token = base64.urlsafe_b64encode(os.urandom(60)) 
+        token = base64.urlsafe_b64encode(os.urandom(60))
         timestart = time.time()
-        f=open(sessiontmp,"w+")        
-        f.write(str(token))
-        f.write('\n')
-        f.write(str(timestart))
-        f.close()
+        with open(sessiontmp,"w+") as f:
+            f.write(str(token))
+            f.write('\n')
+            f.write(str(timestart))
         return(token,timestart)
 
     ### POPUP Timeout
@@ -43,13 +42,12 @@ class core:
     ### Check the Session
     def sessioncheck():
         try:
-            f = open(sessiontmp,"r")        
-            session = f.read()
-            result = [x.strip() for x in session.split('\n')]
-            otoken = result[0]
-            timestart =  result[1]
-            core.timeout(timestart)
-            f.close()
+            with open(sessiontmp,"r") as f:
+                session = f.read()
+                result = [x.strip() for x in session.split('\n')]
+                otoken = result[0]
+                timestart =  result[1]
+                core.timeout(timestart)
             return True
         except:            
             core.exit_now('','')
@@ -60,16 +58,15 @@ class core:
     def timeout(timestart):
         timedone = time.time()
         elapsed = float(timedone) - float(timestart)
-        if elapsed >= secout:
-            core.dialog_exit()
-            self.close()            
-            core.exit_now('','')
-        else:
+        if elapsed < secout:
             return None
+        core.dialog_exit()
+        self.close()
+        core.exit_now('','')
         return None
 
     ### Close all system    
-    def exit_now(token,timestart):
+    def exit_now(self, timestart):
         try:
             df.drop(df.index, inplace=True)
         except:
@@ -77,7 +74,7 @@ class core:
         try:
             os.remove(filetemp)
         except:
-            token=''
+            self = ''
         try:
             os.remove(sessiontmp)
         except:
@@ -99,24 +96,24 @@ class core:
     ### Restart the APP for the first login
     def restart():
         eapp = os.getcwd()
-        os.execv('{}/pypwd.py'.format(eapp), sys.argv)        
+        os.execv(f'{eapp}/pypwd.py', sys.argv)
         sys.exit()
         return None    
     
     ### Find and check the Master Password
-    def detemppwd(password):        
-        datapwd = password.split("b'")[1]        
-        password = datapwd.split("'")[1]
-        password = datapwd.encode(encoding) 
+    def detemppwd(self):        
+        datapwd = self.split("b'")[1]
+        self = datapwd.split("'")[1]
+        self = datapwd.encode(encoding)
         keysalt = base64.urlsafe_b64encode(key+key)
         cipher_suite = Fernet(keysalt)
-        password = cipher_suite.decrypt(password)     
-        password = password.decode('utf-8')
-        return password
+        self = cipher_suite.decrypt(self)
+        self = self.decode('utf-8')
+        return self
     
     ### Decrypt password for keyfile
-    def decrypt(password):
-        bpass = bytes(password, encoding)
+    def decrypt(self):
+        bpass = bytes(self, encoding)
         kdf = PBKDF2HMAC(
              algorithm=hashes.SHA256(),
              length=23,
@@ -125,12 +122,11 @@ class core:
              backend=default_backend()
         )
         keyencrypt = base64.urlsafe_b64encode(kdf.derive(bpass))
-        keyfile = keyencrypt.decode(encoding)
-        return keyfile
+        return keyencrypt.decode(encoding)
     
     ### Encrypt / Decrypt Master File
-    def encryptMaster(password):
-        bpass = bytes(password, encoding)
+    def encryptMaster(self):
+        bpass = bytes(self, encoding)
         keysalt = os.urandom(16)
         kdf = PBKDF2HMAC(
              algorithm=hashes.SHA256(),
@@ -139,43 +135,40 @@ class core:
              iterations=100000,
              backend=default_backend()
          )
-        keyfile = base64.urlsafe_b64encode(kdf.derive(bpass))        
+        keyfile = base64.urlsafe_b64encode(kdf.derive(bpass))
         keyfile = keyfile.decode(encoding)
-        ### READ CONFIG
-        f = open("./libs/configfile.py","rt")        
-        options = f.read()
-        result = [x.strip() for x in options.split('\n')]
-        key = result[3]; key = [x.strip() for x in key.split(' = ')];
-        f.close()        
+        with open("./libs/configfile.py","rt") as f:
+            options = f.read()
+            result = [x.strip() for x in options.split('\n')]
+            key = result[3]
+            key = [x.strip() for x in key.split(' = ')];
         ### SAVE SALT
         options = options.replace(str(key[1]),str(keysalt))
-        f = open("./libs/configfile.py","wt")         
-        f.write(options)        
-        f.close()        
+        with open("./libs/configfile.py","wt") as f:
+            f.write(options)
         ### SALT PASSWORD
         keysalt = base64.urlsafe_b64encode(keysalt+keysalt)
-        bpass = bytes(password, encoding)
-        cipher_suite = Fernet(keysalt)      
+        bpass = bytes(self, encoding)
+        cipher_suite = Fernet(keysalt)
         encoded_text = cipher_suite.encrypt(bpass)
         return keyfile,encoded_text      
         
     ### Hashing Password
-    def hash_password(password):
+    def hash_password(self):
         keysalt = base64.urlsafe_b64encode(key+key)
-        bpass = bytes(password, encoding)
-        cipher_suite = Fernet(keysalt)      
-        encoded_text = cipher_suite.encrypt(bpass)
-        return encoded_text      
+        bpass = bytes(self, encoding)
+        cipher_suite = Fernet(keysalt)
+        return cipher_suite.encrypt(bpass)      
 
     ### Password Verification
-    def verify_password(datapass,password):        
+    def verify_password(self, password):        
         keysalt = base64.urlsafe_b64encode(key+key)
-        bpass = bytes(password, encoding)      
-        cipher_suite = Fernet(keysalt) 
-        datapwd = datapass.split("b'")[1]        
-        datapass = datapwd.split("'")[1]
-        datapass = datapwd.encode(encoding)        
-        dtext = cipher_suite.decrypt(datapass)      
+        bpass = bytes(password, encoding)
+        cipher_suite = Fernet(keysalt)
+        datapwd = self.split("b'")[1]
+        self = datapwd.split("'")[1]
+        self = datapwd.encode(encoding)
+        dtext = cipher_suite.decrypt(self)
         dtext = dtext.decode(encoding)
         return password == dtext
 ############################################################################################################

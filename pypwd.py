@@ -64,17 +64,14 @@ def main():
             app = QtWidgets.QApplication(sys.argv)
             controller = Controller()
             controller.show_login()
-            sys.exit(app.exec_())
-            core.exit_now('','')
-            return None
         else:
         ### Show Create Master
             app = QtWidgets.QApplication(sys.argv)
             controller = Controller()
             controller.show_create()
-            sys.exit(app.exec_())
-            core.exit_now('','')
-            return None
+        sys.exit(app.exec_())
+        core.exit_now('','')
+        return None
     except:
     ### Show Create Master as default     
         app = QtWidgets.QApplication(sys.argv)

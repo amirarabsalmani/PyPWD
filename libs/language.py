@@ -13,19 +13,19 @@ optenco = ['UTF-8','ISO-8859-1','UTF-16','UTF-32']
 ### Check language config
 if language == 'English':
     ### LOGIN PAGE
-    LWTE = "PyPWD {} - Login".format(ver)
+    LWTE = f"PyPWD {ver} - Login"
     LUSR = "Username"
     LPWD = "Password"
     LBOK = "OK"
-    LMSG = "Welcome in PYPWD Manager {}".format(ver)
+    LMSG = f"Welcome in PYPWD Manager {ver}"
     LFUP = "Please fill the Username and password to LOGIN"
     LUCE = "The Username cannot be empty"
     LPCE = "The Passwords cannot be empty"
     LOMM = "Opening the Menu"
     LMPW = "Wrong Username or Password!"
-    LMUW = "The MASTER Username is wrong"    
+    LMUW = "The MASTER Username is wrong"
     ### DELETE DIALOG BOX
-    DWTE = "PyPWD {} - Delete Password".format(ver)
+    DWTE = f"PyPWD {ver} - Delete Password"
     DQDR = "Are you sure to delete the record ?"
     DMDS = "After deleting, You cannot recover the record !"
     DBCC = "Cancel"
@@ -34,14 +34,14 @@ if language == 'English':
     DRDL = "Record deleted !"
     ### CREATE MASTER DIALOG
     CCMP = "Create the Master Pasword"
-    CWTE = "PyPWD {} -  Create Master".format(ver)
+    CWTE = f"PyPWD {ver} -  Create Master"
     CMRB = "Repeat"
     CMSP = "Save"
     CRPE = "The repeat password cannot be empty!"
     CPNS = "The passwords are note the same!"
     ### CREATE PASSWORD DIALOG
     CPPE = "The project name cannot be empty"
-    CPWT = "PyPWD {} - Create new".format(ver)
+    CPWT = f"PyPWD {ver} - Create new"
     CPNP = "Create a new Record Pasword"
     CPPN = "Project"
     CPNO = "Notes"
@@ -51,7 +51,7 @@ if language == 'English':
     CPPS = "Password saved !"
     CPCS = "I cannot save this record !"
     ### OPTIONS DIALOG BOX
-    OWTE = "PyPWD {} - Configuration".format(ver)
+    OWTE = f"PyPWD {ver} - Configuration"
     OSTO = "Set Timeout"
     OSEN = "Set Encoding"
     OSSL = "Set Language"
@@ -66,7 +66,7 @@ if language == 'English':
     OFEE = "Excel Exported"
     OBED = "BACKUP Exported"
     OBEP = "I Cannot export the backup"
-    OOFD = "PyPWD {} - Files Box".format(ver)
+    OOFD = f"PyPWD {ver} - Files Box"
     OPED = "Export Excel"
     OPEB = "Export Backup"
     OPIB = "Import Backup"
@@ -80,7 +80,7 @@ if language == 'English':
     OAPP = "I Cannot save the settings"
     OWEA = "Warning"
     ### MAINMANU OPT
-    MWTE = "PyPWD {} - Main Menu".format(ver)
+    MWTE = f"PyPWD {ver} - Main Menu"
     MMCR = "Create"
     MMSP = "Search"
     MMDP = "Delete"
@@ -95,99 +95,97 @@ if language == 'English':
     MMSE = "The Search box is empty, type something..."
     MMNF = "Not record found, try again..."
     MMFR = "Records Found: "
-    MMTP = "There is a system problem..." 
+    MMTP = "There is a system problem..."
     TMOT = "The Session is expired, closing the app!"
-    
-else:
-    
-    if language == 'Italian':
+
+elif language == 'Italian':
         ### LOGIN PAGE
-        LWTE = "PyPWD {} - Login".format(ver)
-        LUSR = "Nome"
-        LPWD = "Password"
-        LBOK = "OK"
-        LMSG = "Benvenuto in PYPWD Manager {}".format(ver)
-        LFUP = "Perfavore compila Nome e Password per accedere"
-        LUCE = "Il Nome non puó essere vuoto"
-        LPCE = "Le password non possono essere vuote"
-        LOMM = "Aprendo il Menu"
-        LMPW = "Nome o Password errate!"
-        LMUW = "Il nome utente é sbagliato!"    
+    LWTE = f"PyPWD {ver} - Login"
+    LUSR = "Nome"
+    LPWD = "Password"
+    LBOK = "OK"
+    LMSG = f"Benvenuto in PYPWD Manager {ver}"
+    LFUP = "Perfavore compila Nome e Password per accedere"
+    LUCE = "Il Nome non puó essere vuoto"
+    LPCE = "Le password non possono essere vuote"
+    LOMM = "Aprendo il Menu"
+    LMPW = "Nome o Password errate!"
+    LMUW = "Il nome utente é sbagliato!"
         ### DELETE DIALOG BOX
-        DWTE = "PyPWD {} - Cancella Password".format(ver)
-        DQDR = "Sei Sicuro di Cancellare questa Password ?"
-        DMDS = "Dopo l'eliminazione non potrai recuperarla piú !"
-        DBCC = "Cancella"
-        DADM = "Non puoi cancellare questa password. Errore !"
-        DEBT = "Esci"
-        DRDL = "Password Cancellata !"
-        ### CREATE MASTER DIALOG
-        CCMP = "Crea la Password Principale"
-        CWTE = "PyPWD {} -  Crea Password Principale".format(ver)
-        CMRB = "Repeat"
-        CMSP = "Save"
-        CRPE = "The repeat password cannot be empty!"
-        CPNS = "The passwords are note the same!"
-        ### CREATE PASSWORD DIALOG
-        CPPE = "Il progetto non puó essere vuoto"
-        CPWT = "PyPWD {} - Crea Nuovo".format(ver)
-        CPNP = "Crea una nuova Pasword"
-        CPPN = "Progetto"
-        CPNO = "Note"
-        CPSP = "Salva"
-        CPCA = "Cancella tutto"
-        CPCD = "Chiudi"
-        CPPS = "Password salvata !"
-        CPCS = "Non Posso Salvare questa Password !"
+    DWTE = f"PyPWD {ver} - Cancella Password"
+    DQDR = "Sei Sicuro di Cancellare questa Password ?"
+    DMDS = "Dopo l'eliminazione non potrai recuperarla piú !"
+    DBCC = "Cancella"
+    DADM = "Non puoi cancellare questa password. Errore !"
+    DEBT = "Esci"
+    DRDL = "Password Cancellata !"
+    ### CREATE MASTER DIALOG
+    CCMP = "Crea la Password Principale"
+    CWTE = f"PyPWD {ver} -  Crea Password Principale"
+    CMRB = "Repeat"
+    CMSP = "Save"
+    CRPE = "The repeat password cannot be empty!"
+    CPNS = "The passwords are note the same!"
+    ### CREATE PASSWORD DIALOG
+    CPPE = "Il progetto non puó essere vuoto"
+    CPWT = f"PyPWD {ver} - Crea Nuovo"
+    CPNP = "Crea una nuova Pasword"
+    CPPN = "Progetto"
+    CPNO = "Note"
+    CPSP = "Salva"
+    CPCA = "Cancella tutto"
+    CPCD = "Chiudi"
+    CPPS = "Password salvata !"
+    CPCS = "Non Posso Salvare questa Password !"
         ### OPTIONS DIALOG BOX
-        OWTE = "PyPWD {} - Configurazione".format(ver)
-        OSTO = "Cambia Timeout"
-        OSEN = "Cambia Codifica"
-        OSSL = "Cambia Lingua"
-        OSEB = "Esporta per Backup"
-        OSCB = "Esporta in chiaro in Excel"
-        ORRD = "Reset/Rimuovi Database"
-        OSID = "Importa Database"
-        OOOP = "Vecchia PWD"
-        OONP = "Nuova PWD"
-        ORMP = "Reset password principale"
-        OROF = "Reset"
-        OFEE = "EXCEL esportato"
-        OBED = "BACKUP esportato"
-        OOFD = "PyPWD {} - Files Box".format(ver)
-        OPED = "Esporta Excel"
-        OPEB = "Esporta Backup"
-        OPIB = "Importa Backup"
-        ORAP = "Admin password cambiata, riavvia"
-        OIDB = "IMPORTATO, RIAVVIA"
-        ODMD = "Sei Sicuro di eliminare tutto?"
-        OAPR = "Tutte le password sono state rimosse!"
-        OAPN = "Hai annullato l'operazione"
-        ODMT = "Confirma cancellazione"
-        OIDF = "Non posso importare il backup"
-        OBEP = "Non posso esportare il backup"
-        OAPP = "Non posso salvare le impostazioni"
-        OWEA = "Attenzione"
+    OWTE = f"PyPWD {ver} - Configurazione"
+    OSTO = "Cambia Timeout"
+    OSEN = "Cambia Codifica"
+    OSSL = "Cambia Lingua"
+    OSEB = "Esporta per Backup"
+    OSCB = "Esporta in chiaro in Excel"
+    ORRD = "Reset/Rimuovi Database"
+    OSID = "Importa Database"
+    OOOP = "Vecchia PWD"
+    OONP = "Nuova PWD"
+    ORMP = "Reset password principale"
+    OROF = "Reset"
+    OFEE = "EXCEL esportato"
+    OBED = "BACKUP esportato"
+    OOFD = f"PyPWD {ver} - Files Box"
+    OPED = "Esporta Excel"
+    OPEB = "Esporta Backup"
+    OPIB = "Importa Backup"
+    ORAP = "Admin password cambiata, riavvia"
+    OIDB = "IMPORTATO, RIAVVIA"
+    ODMD = "Sei Sicuro di eliminare tutto?"
+    OAPR = "Tutte le password sono state rimosse!"
+    OAPN = "Hai annullato l'operazione"
+    ODMT = "Confirma cancellazione"
+    OIDF = "Non posso importare il backup"
+    OBEP = "Non posso esportare il backup"
+    OAPP = "Non posso salvare le impostazioni"
+    OWEA = "Attenzione"
         ### MAINMANU OPT
-        MWTE = "PyPWD {} - Menu Principale".format(ver)
-        MMCR = "Crea"
-        MMSP = "Cerca"
-        MMDP = "Cancella"
-        MMSA = "Tutto"
-        MMCM = "Config"
-        MMSO = "Scegli un opzione:"
-        MMPC = "Record copiato negli appunti"
-        MMRD = "Password Cancellata"
-        MMMM = "Perfavore seleziona una password da rimuovere"
-        MMRR = "Leggendo tutte le password salvate..."
-        MMPN = "Cercando in Progetti e Note..."
-        MMSE = "Il BOX Cerca é vuoto, scrivi qualcosa..."
-        MMNF = "Nessuna password trovata, riprova..."
-        MMFR = "Password Trovate: "
-        MMTP = "C'é stato un prolema..."
-        OOFD = "PyPWD {} - Files Box".format(ver)
-        TMOT = "Sessione scaduta, chiudo l'applicazione!"
-        
-    else:
-        ### Default Language
-        language == 'English'
+    MWTE = f"PyPWD {ver} - Menu Principale"
+    MMCR = "Crea"
+    MMSP = "Cerca"
+    MMDP = "Cancella"
+    MMSA = "Tutto"
+    MMCM = "Config"
+    MMSO = "Scegli un opzione:"
+    MMPC = "Record copiato negli appunti"
+    MMRD = "Password Cancellata"
+    MMMM = "Perfavore seleziona una password da rimuovere"
+    MMRR = "Leggendo tutte le password salvate..."
+    MMPN = "Cercando in Progetti e Note..."
+    MMSE = "Il BOX Cerca é vuoto, scrivi qualcosa..."
+    MMNF = "Nessuna password trovata, riprova..."
+    MMFR = "Password Trovate: "
+    MMTP = "C'é stato un prolema..."
+    OOFD = f"PyPWD {ver} - Files Box"
+    TMOT = "Sessione scaduta, chiudo l'applicazione!"
+
+else:
+    ### Default Language
+    language == 'English'

@@ -159,7 +159,7 @@ class Ui_MainMenu(object):
             column_number = idx.column()
         cc = self.tableWidget.item(row_number,column_number)
         cc = cc.text()
-        os.system("echo {}|pbcopy %".format(cc))
+        os.system(f"echo {cc}|pbcopy %")
         self.msg_label.setText(MMPC)
         self.repaint()
         return None
@@ -185,23 +185,32 @@ class Ui_MainMenu(object):
     ### Delete selected password
     def delete(self):
         core.sessioncheck()
-        try:            
+        try:        
             project = self.tableWidget.item(self.tableWidget.currentRow(), 0).text()
-            username = self.tableWidget.item(self.tableWidget.currentRow(), 1).text()            
-            notes = self.tableWidget.item(self.tableWidget.currentRow(),2).text()            
+            username = self.tableWidget.item(self.tableWidget.currentRow(), 1).text()
+            notes = self.tableWidget.item(self.tableWidget.currentRow(),2).text()
             row = self.tableWidget.currentRow()
             column = self.tableWidget.currentColumn()
             idx =  self.tableWidget.takeVerticalHeaderItem(row).text()
             self.options = DialogDelete()
-            self.options.show()     
-            self.msg_label.setText("") 
+            self.options.show()
+            self.msg_label.setText("")
             self.repaint()
-            row = ' ID: ' + idx + '\n Project: ' + project + '\n Username: '+ username + '\n Notes: ' + notes
+            row = (
+                f' ID: {idx}'
+                + '\n Project: '
+                + project
+                + '\n Username: '
+                + username
+                + '\n Notes: '
+                + notes
+            )
+
             self.options.tablemsg.setText(row)
             self.options.label_id.setText(idx)
             self.options.label_id.hide()
             self.tableWidget.setRowCount(0);
-            self.tableWidget.setColumnCount(0);            
+            self.tableWidget.setColumnCount(0);
             if ui.pushButtonCancel is True:
                 ui.tablemsg.setText(MMRD)
                 ui.tablemsg.repaint()
@@ -214,24 +223,24 @@ class Ui_MainMenu(object):
     def show_all(self):
         core.sessioncheck()
         self.tableWidget.setRowCount(0);
-        self.tableWidget.setColumnCount(0); 
+        self.tableWidget.setColumnCount(0);
         self.msg_label.setText(MMRR)
         self.repaint()
-        df = pd.read_csv(filetemp,index_col='id',skiprows=[1])  
+        df = pd.read_csv(filetemp,index_col='id',skiprows=[1])
         for p in df['password']:
             decoded_text = core.detemppwd(p)
             df.loc[df['password'] == p, 'password'] = decoded_text
         self.df = df
         nRows = len(self.df.index)
         nColumns = len(self.df.columns)
-        R=int(nRows)        
-        C=int(nColumns)
+        R = nRows
+        C = nColumns
         Cn = list(df.columns.values)
         Rn = list(df.index.values)
-        Rn = [str(i) for i in Rn] 
-        self.tableWidget.setColumnCount(nColumns)
+        Rn = [str(i) for i in Rn]
+        self.tableWidget.setColumnCount(C)
         self.tableWidget.setHorizontalHeaderLabels(Cn)
-        self.tableWidget.setRowCount(nRows)
+        self.tableWidget.setRowCount(R)
         self.tableWidget.setVerticalHeaderLabels(Rn)
         for i in range(R):
             for j in range(C):
@@ -243,7 +252,7 @@ class Ui_MainMenu(object):
     def search_password(self):
         core.sessioncheck()
         self.tableWidget.setRowCount(0);
-        self.tableWidget.setColumnCount(0); 
+        self.tableWidget.setColumnCount(0);
         self.msg_label.setText(MMPN)
         self.repaint()
         sword = self.lineSearch.text()
@@ -258,12 +267,12 @@ class Ui_MainMenu(object):
                 if df_1.empty and df_2.empty:
                     self.msg_label.setText(MMNF)
                     self.repaint()
-                    return False        
+                    return False
                 else:
                     df_tot = pd.concat([df_1,df_2], ignore_index=False)
                     df_tot = df_tot.drop_duplicates()
                     tot_record = len(df_tot)
-                    self.msg_label.setText(MMFR+'{}'.format(tot_record))
+                    self.msg_label.setText(MMFR + f'{tot_record}')
                     self.repaint()
                     for p in df_tot['password']:
                         decoded_text = core.detemppwd(p)
@@ -271,14 +280,14 @@ class Ui_MainMenu(object):
                     self.df = df_tot
                     nRows = len(self.df.index)
                     nColumns = len(self.df.columns)
-                    R=int(nRows)
-                    C=int(nColumns)                    
+                    R = nRows
+                    C = nColumns
                     Cn = list(self.df.columns.values)
                     Rn = list(self.df.index.values)
                     Rn = [str(i) for i in Rn]
-                    self.tableWidget.setColumnCount(nColumns)
+                    self.tableWidget.setColumnCount(C)
                     self.tableWidget.setHorizontalHeaderLabels(Cn)
-                    self.tableWidget.setRowCount(nRows)
+                    self.tableWidget.setRowCount(R)
                     self.tableWidget.setVerticalHeaderLabels(Rn)
                     for i in range(R):
                         for j in range(C):
